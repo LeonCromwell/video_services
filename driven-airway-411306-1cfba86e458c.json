@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "driven-airway-411306",
+  "private_key_id": "1cfba86e458cc916caf21806cfc1dc7c957c5034",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDEKRNawXBHvBJz\n6Tim/t5RkpmnGwzovPVdWsk3VIcubE4jOhK5HhGONvdPGSk10om02QhMWw421JVn\n99oX83K0dfHbOHEe0w/G4E4hCuvFDdn/72WekqJlbSZU0hJ9tBL0cBFwwU4FQObr\nP3dLrDbVevleDFk3rOaGsUHMFRTKfcw78U/RivfBaDk5fClfC7P+SzBAjQMEwcl8\nRL602yChEFighObAn2I9GRSjOOljeSSOVZjZbRnfr/84UncyL4wz7BSbURTVHQbv\nTPy7YYtRHXA6mGAONh/bO9WJQPbohPyMIdwdePGXAiEYg3lGtMFtmC2TY0BqPzPi\nToAfP76/AgMBAAECggEACk4qISN2dZ5QzdwbyNIs9dYg0mGebP+4WD4zwf9j1rGD\n7V/YqfcFbxY+Kd6lhplX+LNKN1C1T3Ydn0erIoT8qrRjj2PItZjbBFS2Zg//0Oto\nX4TBLvJ/K5rvX5dlt0rlkAfvMqBFLAt71jIQX15dxxtdzG4TpdQkjED1tvYIkJax\nvztP6VU+LvQhDZWXQVHUJBlpNop2PMrtVtbcxIWCOz2AN30tRWsGP7mRpEYBoX3d\n40HbnvhslSh0kB7B2sY3/b05RkdifmTzcbVmLDuyxzB38jQ3tNhzb9GcvoPlLmuw\nC/vBbFdLunEOJFbE2ln22y/zQrvLjlvPNe5ltDe8GQKBgQDhqu/U2Xh8GNuickfL\ncV1q1jzclpxVNu7EM7lCk4xQYr5kkzPL88MkRRt8YuHDw7uBFumPiMmsv4wr3ni+\nIRBYh0xRnw0Qu/YpjYHoAPy4m0MeiRRI0RaXhpetLzcVfKHGxEQR3JvwwRVTiryR\nfinMBvScrC+1ylhlod2cdTnIkwKBgQDehtCeiVkUqfBL/+N7YRJU6ON5z5ZbB4K1\ncd7dWzV6KRMqLqwhq8A8RvfEk/Cx0XJKO5YOKSc24NywlcF8R8Q11W2lbfpZLOWY\nHA+k2mAjUXT3AZUy5Md6CN8BAlP1n0aWF+K91EDa70u1lSUF4z/YilfXMOG7F4J1\nyj9llruopQKBgQDJkU+LhXwzDFkSLpWmSGoyxY2zUuvsyZZXtgOiTfykyK5bU4iO\ngfsp6Hh2kDQsEibnVTnltT6+iJGBlcOvwATDroYi2bhn3BwyXW1Nd6REmJpJKhPu\nPqS5T8UnMec30A0IZ8KNWcoIL88GwgNQyao3zXasgrhS3pw6m2xBFgw49QKBgCNb\nTlhyQEotOjYJIW7gHJaLLmGTXzN1fQoxXpTTQir3zci9A7KR5IhvSjzcuLi4K62p\nzAzR8x4gGlCgas7BZGadU7+eOtHidVR22PF7lRzne2snwDoG6b71G+HAKfDz7rY4\nc1lwGSHwNZpTaT+HPQS97nkNlkAw2xS2Ht6YVZbVAoGBAMIRQK08BmgDGgnXU7cK\noeYjfLMRJgEVclgFmeQBs0/QzlTz9Qtw2pEMe9pGHdRwg9RZBMm4p1kiRAG2kojT\nMWSzSHu3Y702d45pkKmvF6/xN1VFDwCA5ZcQt3PVL07/jZMqQCcSSxwGuCU2Vy1V\nV2s5UXXGweKZekgkTUkNuk+J\n-----END PRIVATE KEY-----\n",
+  "client_email": "video-service@driven-airway-411306.iam.gserviceaccount.com",
+  "client_id": "107231813389025647491",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/video-service%40driven-airway-411306.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
