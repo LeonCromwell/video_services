@@ -5,8 +5,10 @@ class UploadController {
   async save(req, res) {
     try {
       const file = req.file;
-      await uploadVideo(file);
-      return res.status(200).json({ message: "Upload success" });
+      const publicUrl = await uploadVideo(file);
+      return res
+        .status(200)
+        .json({ message: "Upload success", url: publicUrl });
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
