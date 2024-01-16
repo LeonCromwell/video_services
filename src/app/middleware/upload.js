@@ -9,22 +9,18 @@ const bucketName = "hlsstreaming";
 
 async function uploadVideo(file) {
   try {
-    const uploadPath = "videos/" + file.originalname;
-    const filestream = storage
-      .bucket(bucketName)
-      .file(uploadPath)
-      .createWriteStream();
+    const blob = storage.bucket(bucketName).file("videos/" + file.originalname);
 
-    filestream.on("error", (err) => {
-      throw new Error(err);
+    const blobStream = blob.createWriteStream({
+      resumable: false,
+    });
+    blobStream.on("finish", () => {
+      console.log("Video uploaded to Google Cloud Storage.");
     });
 
-    filestream.on("finish", () => {
-      logger.info(`Upload ${file.originalname} success`);
-    });
+    blobStream.end(file.buffer);
 
-    filestream.end(file.buffer);
-    return;
+    res.send("Video uploaded to Google Cloud Storage.");
   } catch (error) {
     throw new Error(error);
   }
