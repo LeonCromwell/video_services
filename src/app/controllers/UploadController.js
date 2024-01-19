@@ -1,16 +1,16 @@
 const uploadVideo = require("../middleware/upload");
-const getBitrateFromBuffer = require("../../utils/getBitrate");
+const convertBufferToHls = require("../middleware/convertHls");
 
 class UploadController {
   // [post] /upload
   async save(req, res) {
     try {
       const file = req.file;
-      const bitrate = await getBitrateFromBuffer(file.buffer);
-      // const publicUrl = await uploadVideo(file);
+      await convertBufferToHls(file);
+      const publicUrl = await uploadVideo(file);
       return res
         .status(200)
-        .json({ message: "Upload success", url: file.originalname, bitrate });
+        .json({ message: "Upload success", original_video: publicUrl });
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
