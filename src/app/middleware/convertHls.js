@@ -34,7 +34,7 @@ function convertBufferToHls(file) {
     ffmpeg.on("close", (code) => {
       if (code === 0) {
         console.log("Chuyển đổi thành công.");
-        resolve(fileName + ".m3u8");
+        resolve(fileName);
       } else {
         reject(code);
       }
