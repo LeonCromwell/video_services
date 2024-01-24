@@ -1,3 +1,5 @@
+const Video = require("../models/video.js");
+
 const uploadVideo = require("../middleware/uploadVideo");
 const uploadFolder = require("../middleware/uploadFolder");
 const convertBufferToHls = require("../middleware/convertHls");
@@ -10,6 +12,11 @@ class VideoController {
       const fileUpload = await convertBufferToHls(file);
       await uploadFolder("./src/temp/" + fileUpload);
       const publicUrl = await uploadVideo(file);
+      const video = new Video({
+        name: fileUpload,
+        original_video: publicUrl,
+      });
+      await video.save();
       return res.status(200).json({
         message: "Upload success",
         original_video: publicUrl,
@@ -29,18 +36,34 @@ class VideoController {
     });
 
     const bucketName = "hlsstreaming";
-    const idVideo = req.query.idVideo;
+    const nameVideo = req.query.nameVideo;
 
-    const url = await storage
-      .bucket(bucketName)
-      .file(`videos/hls_video/${idVideo}/${idVideo}.m3u8`)
-      .getSignedUrl({
-        action: "read",
-        expires: "12-31-2025",
-        virtualHostedStyle: false,
-      });
-    // Gửi nội dung HTML đến client
-    res.status(200).json({ url: url });
+    try {
+      Video.findOne({ name: nameVideo })
+        .then((video) => {
+          if (!video) {
+            throw new Error("Video not found");
+          }
+          const url = storage
+            .bucket(bucketName)
+            .file(`videos/hls_video/${video.name}/${video.name}.m3u8`)
+            .getSignedUrl({
+              action: "read",
+              expires: "12-31-2025",
+              virtualHostedStyle: false,
+            });
+          return url;
+        })
+        .then((url) => {
+          res.status(200).json({ url: url });
+        })
+        .catch((err) => {
+          res.status(400).json({ error: err.message });
+        });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
   }
 }
 

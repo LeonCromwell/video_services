@@ -23,4 +23,8 @@ async function configureBucketCors() {
         * responses across origins`);
 }
 
-module.exports = configureBucketCors;
+module.exports = {
+  configureBucketCors,
+  storage,
+  bucketName,
+};
