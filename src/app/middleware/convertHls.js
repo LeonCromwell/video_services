@@ -1,9 +1,7 @@
 const { spawn } = require("child_process");
 const ensureDirectoryExists = require("../../utils/ensureDirectoryExists");
 
-function convertBufferToHls(file) {
-  const fileName = file.originalname.split(".")[0];
-
+function convertBufferToHls(file, fileName) {
   ensureDirectoryExists("./src/temp/" + fileName);
   return new Promise((resolve, reject) => {
     const ffmpeg = spawn("ffmpeg", [

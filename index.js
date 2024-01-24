@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 const route = require("./src/routes");
 const connect = require("./src/config/db");
-const configureBucketCors = require("./src/config/google");
+const { configureBucketCors } = require("./src/config/google");
 
 dotenv.config();
 

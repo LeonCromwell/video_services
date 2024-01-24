@@ -1,17 +1,20 @@
 const Video = require("../models/video.js");
-
 const uploadVideo = require("../middleware/uploadVideo");
 const uploadFolder = require("../middleware/uploadFolder");
 const convertBufferToHls = require("../middleware/convertHls");
+const { storage, bucketName } = require("../../config/google");
+const generateUniqueNumber = require("../../utils/generateUniqueNumber.js");
 
 class VideoController {
   // [post] /upload
   async save(req, res) {
     try {
       const file = req.file;
-      const fileUpload = await convertBufferToHls(file);
+      let fileName = file.originalname.split(".")[0];
+      fileName += "-" + generateUniqueNumber();
+      const fileUpload = await convertBufferToHls(file, fileName);
       await uploadFolder("./src/temp/" + fileUpload);
-      const publicUrl = await uploadVideo(file);
+      const publicUrl = await uploadVideo(file, fileName);
       const video = new Video({
         name: fileUpload,
         original_video: publicUrl,
@@ -29,13 +32,6 @@ class VideoController {
 
   // [get] /
   async index(req, res) {
-    const { Storage } = require("@google-cloud/storage");
-    const storage = new Storage({
-      projectId: "driven-airway-411306",
-      keyFilename: "./driven-airway-411306-1cfba86e458c.json",
-    });
-
-    const bucketName = "hlsstreaming";
     const nameVideo = req.query.nameVideo;
 
     try {

@@ -1,14 +1,7 @@
-const { Storage } = require("@google-cloud/storage");
 const fs = require("fs");
 const path = require("path");
 const deleteFolderRecursive = require("../../utils/deleteFolderRecursive");
-
-const storage = new Storage({
-  projectId: "driven-airway-411306",
-  keyFilename: "./driven-airway-411306-1cfba86e458c.json",
-});
-
-const bucketName = "hlsstreaming";
+const { storage, bucketName } = require("../../config/google");
 
 async function uploadFolder(folderPath) {
   const fileName = folderPath.split("/")[3];

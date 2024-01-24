@@ -1,18 +1,11 @@
-const { Storage } = require("@google-cloud/storage");
+const { storage, bucketName } = require("../../config/google");
 
-const storage = new Storage({
-  projectId: "driven-airway-411306",
-  keyFilename: "./driven-airway-411306-1cfba86e458c.json",
-});
-
-const bucketName = "hlsstreaming";
-
-async function uploadVideo(file) {
+async function uploadVideo(file, fileName) {
   return new Promise((resolve, reject) => {
     try {
       const blob = storage
         .bucket(bucketName)
-        .file("videos/original_video/" + file.originalname);
+        .file("videos/original_video/" + fileName);
 
       const blobStream = blob.createWriteStream({
         resumable: false,
