@@ -9,6 +9,8 @@ function convertBufferToHls(file) {
     const ffmpeg = spawn("ffmpeg", [
       "-i",
       "pipe:0",
+      "-vf",
+      "scale=640:-2",
       "-c:v",
       "h264",
       "-c:a",

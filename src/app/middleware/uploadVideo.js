@@ -12,7 +12,7 @@ async function uploadVideo(file) {
     try {
       const blob = storage
         .bucket(bucketName)
-        .file("videos/" + file.originalname);
+        .file("videos/original_video/" + file.originalname);
 
       const blobStream = blob.createWriteStream({
         resumable: false,

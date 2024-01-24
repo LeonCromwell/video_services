@@ -1,5 +1,5 @@
-const uploadRouter = require("./upload");
+const videoRouter = require("./video");
 
 module.exports = function (app) {
-  app.use("/upload", uploadRouter);
+  app.use("/", videoRouter);
 };

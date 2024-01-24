@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  </head>
+  <body>
+    <video id="video" controls></video>
+    <script>
+      var video = document.getElementById("video");
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        const url =
+          "https://storage.googleapis.com/hlsstreaming/videos/hls_video/Download/Download.m3u8?GoogleAccessId=video-service%40driven-airway-411306.iam.gserviceaccount.com&Expires=1767114000&Signature=FmCf8p7UtxscE7pn3EYp2zimxmBSPdc8PGfJPcOZHLEMn6HlL4GV9Wg2CSIeSsufm2wq6Z4HqdslqmgLQ%2BYgm2ovr8mMcWOayuaz8Scqc20epq2cnaJAX%2FrAkqOPnCUfAsvVJ8l8MgDQtKLZyytrYI18xYM%2BIUQO9HINty3Sr2LzeR2X9JWwzAOypy%2B8Rk9imPd%2FE1i%2BB%2FoDL5yB%2FEqDQHVO4k0o1P651cQABV1fdecgP3lDjy162jXmPir2bn1mfTf%2FYgNpbqWYfFH4bqshzDxSi2s42wtXyhvAUs1OCrsUOjv2DApHDZe%2FjaYWzrPFV95vOQnpcjWM%2F3CZu2f0rw%3D%3D";
+        hls.loadSource(url);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = url;
+      }
+    </script>
+  </body>
+</html>

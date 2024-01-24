@@ -19,7 +19,6 @@ async function uploadFolder(folderPath) {
     // Upload each file to Google Cloud Storage
     for (const file of files) {
       const filePath = path.join(folderPath, file);
-      const destination = path.join("videos/hls_video/" + fileName + "/", file); // Set the destination path in the bucket
 
       await storage.bucket(bucketName).upload(filePath, {
         destination: `videos/hls_video/${fileName}/${file}`,
