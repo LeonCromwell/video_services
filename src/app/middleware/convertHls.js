@@ -1,8 +1,8 @@
 var FfmpegCommand = require("fluent-ffmpeg");
 
-const { storage, bucketName } = require("../../config/google");
+const ensureDirectoryExists = require("../../utils/ensureDirectoryExists");
 
-async function convertBufferToHls(file, fileName) {
+async function convertBufferToHls(path, fileName) {
   try {
     const resolutions = [
       {
@@ -24,18 +24,12 @@ async function convertBufferToHls(file, fileName) {
 
     for (const { resolution, videoBitrate, audioBitrate } of resolutions) {
       console.log(`Hls ${resolution} started`);
-      let mp4FileName = file.originalname.split(".")[0];
-      const outputFileName = `${mp4FileName.replace(
-        ".",
-        "_"
-      )}_${resolution}.m3u8`;
-      const segmentFileName = `${mp4FileName.replace(
-        ".",
-        "_"
-      )}_${resolution}_%03d.ts`;
-      console.log(file.buffer);
+      const outputFileName = `${fileName}_${resolution}.m3u8`;
+      const segmentFileName = `${fileName}_${resolution}_%03d.ts`;
+      await ensureDirectoryExists(`./src/temp/hls_video/${fileName}`);
+
       await new Promise((resolve, reject) => {
-        FfmpegCommand()
+        FfmpegCommand("Tit.mp4")
           .outputOptions([
             `-c:v h264`,
             `-b:v ${videoBitrate}`,
@@ -45,11 +39,12 @@ async function convertBufferToHls(file, fileName) {
             `-f hls`,
             `-hls_time 10`,
             `-hls_list_size 0`,
-            `-hls_segment_filename ./hls/${segmentFileName}`,
+            `-hls_segment_filename ./temp/${fileName}/${segmentFileName}`,
           ])
-          .output(`./hls/${outputFileName}`)
-          .on("end", () => {
+          .output(`./temp/hls_video/${fileName}/${outputFileName}`)
+          .on("end", async () => {
             console.log(`Hls ${resolution} finished`);
+            await uploadFolder("./src/temp/" + fileName);
             resolve();
           })
           .on("error", (error) => {

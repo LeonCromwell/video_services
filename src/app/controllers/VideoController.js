@@ -4,34 +4,34 @@ const uploadFolder = require("../middleware/uploadFolder");
 const convertBufferToHls = require("../middleware/convertHls");
 const { storage, bucketName } = require("../../config/google");
 const generateUniqueNumber = require("../../utils/generateUniqueNumber.js");
+const createJobVideo = require("../../utils/Queue/queueProducer.js");
 
 class VideoController {
   // [post] /upload
   async save(req, res) {
     try {
       const file = req.file;
-      let fileName = file.originalname.split(".")[0];
-      fileName += "-" + generateUniqueNumber();
-      const fileUpload = await convertBufferToHls(file, fileName);
-      // await uploadFolder("./src/temp/" + fileUpload);
-      // const publicUrl = await uploadVideo(file, fileName);
-      // const video = new Video({
-      //   name: fileUpload,
-      //   // original_video: publicUrl,
-      // });
-      // await video.save();
-      // return res.status(200).json({
-      //   message: "Upload success",
-      //   // original_video: publicUrl,
-      //   file: fileUpload,
-      // });
+      let fileName = generateUniqueNumber();
+      const publicUrl = await uploadVideo(file, fileName);
+      const video = {
+        name: fileName,
+        url: publicUrl,
+      };
+      await convertBufferToHls("./", fileName);
+      createJobVideo(video);
       return res.status(200).json({
         message: "Upload success",
-        file: fileUpload,
+        file: publicUrl,
       });
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
+  }
+
+  // convert
+  async convert(req, res) {
+    try {
+    } catch (error) {}
   }
 
   // [get] /

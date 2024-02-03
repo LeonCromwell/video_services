@@ -4,11 +4,14 @@ const dotenv = require("dotenv");
 const route = require("./src/routes");
 const connect = require("./src/config/db");
 const { configureBucketCors } = require("./src/config/google");
+const queueWoker = require("./src/utils/Queue/queueWoker");
 
 dotenv.config();
 
 configureBucketCors().catch(console.error);
 connect();
+
+queueWoker();
 const app = express();
 const port = process.env.PORT || 3000;
 
