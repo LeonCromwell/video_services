@@ -8,7 +8,7 @@ async function uploadVideo(file, fileName) {
         .file("videos/original_video/" + fileName + ".mp4");
 
       const blobStream = blob.createWriteStream({
-        resumable: false,
+        resumable: true,
       });
 
       blobStream.on("finish", async () => {
@@ -28,7 +28,7 @@ async function uploadVideo(file, fileName) {
         reject(new Error(error));
       });
 
-      blobStream.end(file.buffer);
+      blobStream.end(file.buffer, "binary");
     } catch (error) {
       reject(new Error(error));
     }

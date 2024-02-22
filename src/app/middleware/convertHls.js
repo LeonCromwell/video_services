@@ -2,7 +2,7 @@ var FfmpegCommand = require("fluent-ffmpeg");
 
 const ensureDirectoryExists = require("../../utils/ensureDirectoryExists");
 
-async function convertBufferToHls(path, fileName) {
+async function convertBufferToHls(fileName) {
   try {
     const resolutions = [
       {
@@ -29,7 +29,7 @@ async function convertBufferToHls(path, fileName) {
       await ensureDirectoryExists(`./src/temp/hls_video/${fileName}`);
 
       await new Promise((resolve, reject) => {
-        FfmpegCommand("Tit.mp4")
+        FfmpegCommand("./src/temp/original_video/" + fileName + ".mp4")
           .outputOptions([
             `-c:v h264`,
             `-b:v ${videoBitrate}`,
@@ -39,12 +39,12 @@ async function convertBufferToHls(path, fileName) {
             `-f hls`,
             `-hls_time 10`,
             `-hls_list_size 0`,
-            `-hls_segment_filename ./temp/${fileName}/${segmentFileName}`,
+            `-hls_segment_filename ./src/temp/hls_video/${fileName}/${segmentFileName}`,
           ])
-          .output(`./temp/hls_video/${fileName}/${outputFileName}`)
+          .output(`./src/temp/hls_video/${fileName}/${outputFileName}`)
           .on("end", async () => {
             console.log(`Hls ${resolution} finished`);
-            await uploadFolder("./src/temp/" + fileName);
+            // await uploadFolder("./src/temp/" + fileName);
             resolve();
           })
           .on("error", (error) => {

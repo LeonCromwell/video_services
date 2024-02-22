@@ -1,10 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 const deleteFolderRecursive = require("../../utils/deleteFolderRecursive");
+const DeleteFile = require("../../utils/deleteFile");
 const { storage, bucketName } = require("../../config/google");
 
 async function uploadFolder(folderPath) {
-  const fileName = folderPath.split("/")[3];
+  const fileName = folderPath.split("/")[4];
   try {
     // Get a list of all files in the folder
     const files = fs.readdirSync(folderPath);
@@ -26,6 +27,7 @@ async function uploadFolder(folderPath) {
 
     // Delete temp folder
     await deleteFolderRecursive(folderPath);
+    await DeleteFile(`./src/temp/original_video/${fileName}.mp4`);
     console.log("Upload complete.");
   } catch (error) {
     console.error("Error uploading folder:", error);

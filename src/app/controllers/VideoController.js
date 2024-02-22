@@ -15,9 +15,10 @@ class VideoController {
       const publicUrl = await uploadVideo(file, fileName);
       const video = {
         name: fileName,
-        url: publicUrl,
+        original_video: publicUrl,
       };
-      await convertBufferToHls("./", fileName);
+      Video.create(video);
+      // await convertBufferToHls("./", fileName);
       createJobVideo(video);
       return res.status(200).json({
         message: "Upload success",
@@ -28,16 +29,19 @@ class VideoController {
     }
   }
 
-  // convert
-  async convert(req, res) {
-    try {
-    } catch (error) {}
-  }
-
   // [get] /
   async index(req, res) {
     const nameVideo = req.query.nameVideo;
-
+    let resolution = req.query.resolution;
+    if (resolution == "480p") {
+      resolution = "320x180";
+    }
+    if (resolution == "720p") {
+      resolution = "854x480";
+    }
+    if (resolution == "1080p") {
+      resolution = "1280x720";
+    }
     try {
       Video.findOne({ name: nameVideo })
         .then((video) => {
@@ -46,7 +50,9 @@ class VideoController {
           }
           const url = storage
             .bucket(bucketName)
-            .file(`videos/hls_video/${video.name}/${video.name}.m3u8`)
+            .file(
+              `videos/hls_video/${video.name}/${video.name}_${resolution}.m3u8`
+            )
             .getSignedUrl({
               action: "read",
               expires: "12-31-2025",
