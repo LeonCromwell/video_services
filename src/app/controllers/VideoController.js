@@ -44,15 +44,25 @@ class VideoController {
     }
     try {
       Video.findOne({ name: nameVideo })
-        .then((video) => {
+        .then(async (video) => {
           if (!video) {
             throw new Error("Video not found");
+          }
+          const file = storage
+            .bucket(bucketName)
+            .file(
+              `videos/hls_video/${video.name}/${video.name}_${resolution}.m3u8`
+            );
+          const exist = await file.exists();
+          if (!exist[0]) {
+            throw new Error("resolution not found");
           }
           const url = storage
             .bucket(bucketName)
             .file(
               `videos/hls_video/${video.name}/${video.name}_${resolution}.m3u8`
             )
+
             .getSignedUrl({
               action: "read",
               expires: "12-31-2025",
