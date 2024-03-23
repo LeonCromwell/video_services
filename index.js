@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const route = require("./src/routes");
 const connect = require("./src/config/db");
@@ -13,6 +14,8 @@ connect();
 
 queueWoker();
 const app = express();
+app.use(cors());
+
 const port = process.env.PORT || 3000;
 
 // Routes init

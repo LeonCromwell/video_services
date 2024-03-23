@@ -1,14 +1,21 @@
 var FfmpegCommand = require("fluent-ffmpeg");
 
 const ensureDirectoryExists = require("../../utils/ensureDirectoryExists");
+const uploadFolder = require("./uploadFolder");
+const Video = require("../models/video");
 
 async function convertBufferToHls(fileName) {
   try {
     const resolutions = [
       {
-        resolution: "320x180",
-        videoBitrate: "500k",
+        resolution: "250x144",
+        videoBitrate: "300k",
         audioBitrate: "64k",
+      },
+      {
+        resolution: "480x360",
+        videoBitrate: "750k",
+        audioBitrate: "96k",
       },
       {
         resolution: "854x480",
@@ -20,6 +27,11 @@ async function convertBufferToHls(fileName) {
         videoBitrate: "2500k",
         audioBitrate: "192k",
       },
+      {
+        resolution: "1920x1080",
+        videoBitrate: "5000k",
+        audioBitrate: "384k",
+      },
     ];
 
     for (const { resolution, videoBitrate, audioBitrate } of resolutions) {
@@ -30,12 +42,15 @@ async function convertBufferToHls(fileName) {
 
       await new Promise((resolve, reject) => {
         FfmpegCommand("./src/temp/original_video/" + fileName + ".mp4")
+          .inputOptions([`-hwaccel cuda`])
           .outputOptions([
             `-c:v h264`,
             `-b:v ${videoBitrate}`,
             `-c:a aac`,
             `-b:a ${audioBitrate}`,
             `-vf scale=${resolution}`,
+            `-preset veryfast`,
+            `-threads 4`,
             `-f hls`,
             `-hls_time 10`,
             `-hls_list_size 0`,
@@ -44,7 +59,13 @@ async function convertBufferToHls(fileName) {
           .output(`./src/temp/hls_video/${fileName}/${outputFileName}`)
           .on("end", async () => {
             console.log(`Hls ${resolution} finished`);
-            // await uploadFolder("./src/temp/" + fileName);
+            await uploadFolder("./src/temp/hls_video/" + fileName);
+
+            await Video.updateOne(
+              { name: fileName },
+              { $push: { resolution: resolution } },
+              { upsert: true }
+            );
             resolve();
           })
           .on("error", (error) => {

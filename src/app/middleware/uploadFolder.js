@@ -27,7 +27,7 @@ async function uploadFolder(folderPath) {
 
     // Delete temp folder
     await deleteFolderRecursive(folderPath);
-    await DeleteFile(`./src/temp/original_video/${fileName}.mp4`);
+    // await DeleteFile(`./src/temp/original_video/${fileName}.mp4`);
     console.log("Upload complete.");
   } catch (error) {
     console.error("Error uploading folder:", error);

@@ -11,7 +11,11 @@ function deleteFolderRecursive(folderPath) {
         deleteFolderRecursive(currentPath);
       } else {
         // Xóa tệp
-        fs.unlinkSync(currentPath);
+        fs.unlinkSync(currentPath, (err) => {
+          if (err) throw err;
+          console.log({ err });
+          console.log(`Đã xóa tệp: ${currentPath}`);
+        });
       }
     });
 

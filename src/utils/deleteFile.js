@@ -3,7 +3,7 @@ const DeleteFile = (path) => {
 
   try {
     fs.unlinkSync(path);
-    console.log(`Deleted ${path}`);
+    console.log(`File ${path} deleted.`);
   } catch (error) {
     console.error(`Error deleting file: ${error}`);
   }
